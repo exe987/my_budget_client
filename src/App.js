@@ -1,8 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import User from './context/users/userState'
 import Layout from './components/Layout'
 function App() {
   return (
-    <Layout/>
+    <User>
+       <Layout/>
+    </User>
+   
   );
 }
 
