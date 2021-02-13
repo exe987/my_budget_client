@@ -10,7 +10,7 @@ const Dashboard = () => {
 	const { hiddenBox } = userContext;
 	return (
 		<section className="section is-medium">
-			<div className="columns">
+			<div className="columns is-vcentered">
 				{hiddenBox === false ? <AddMoney /> : null}
 				<AddExpense />
 			</div>

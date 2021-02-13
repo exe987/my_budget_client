@@ -9,7 +9,7 @@ const Layout = () => {
 	return (
 		<Router>
 			<Header />
-			<div className="container is-fluid has-background-warning-light mt-6">
+			<div className="container is-fluid mt-6">
 				<Switch>
 					<Route exact path="/">
 						<EntryForm />
