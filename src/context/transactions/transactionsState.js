@@ -29,11 +29,9 @@ const Transaction = (props) => {
       const response = await clienteAxios.post("/api/transaction", transaction);
       dispatch({
         type: ADD_TRANSACTION,
-        payload: transaction,
       });
       //MSG SUCCESS
       Swal.fire({
-        position: "top-end",
         icon: "success",
         title: response.data.msg,
         showConfirmButton: false,
@@ -84,7 +82,6 @@ const Transaction = (props) => {
       console.log(error);
     }
   };
-
   //UPDATE TRANSACTION
   //CATCH TRANSACTION FOR UPDATING
   const catchTransaction = (expense) => {
@@ -104,7 +101,7 @@ const Transaction = (props) => {
         id: transaction.id_transaction,
         ammount: transaction.ammount,
       });
-      console.log(response)
+      console.log(response);
       //GET LAST 10 TRANSACTIONS
       getLastTransactions(transaction.id);
       //GET BUDGET
@@ -116,18 +113,23 @@ const Transaction = (props) => {
       console.log(error);
     }
   };
-
   //DELETE TRANSACTION
-  const deleteTransaction = (transaction) => {
+  const deleteTransaction = async (transaction) => {
     try {
+      const { id_transaction } = transaction;
+      await clienteAxios.delete(`/api/transaction/${id_transaction}`, {
+        params: {
+          id_transaction: id_transaction,
+        },
+      });
+      //GET LAST 10 TRANSACTIONS
+      getLastTransactions(transaction.id);
+      //GET BUDGET
+      getBudget(transaction.id);
       dispatch({
         type: DELETE_TRANSACTION,
-        payload: transaction,
       });
-      dispatch({
-        type: UPDATE_AMMOUNT,
-        payload: transaction.money,
-      });
+      Swal.fire("Deleted!", "Your expense has been deleted.", "success");
     } catch (error) {
       console.log(error);
     }

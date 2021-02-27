@@ -47,23 +47,6 @@ const User = (props) => {
       });
     }
   };
-  //USER AUTHENTICATED
-  const authenticatedUser = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        tokenAuth(token);
-        const response = await clienteAxios.get("/api/login");
-        dispatch({
-          type: GET_DATA_USER,
-          payload: response.data.result[0],
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   //LOGIN
   const logIn = async (user) => {
     try {
@@ -79,6 +62,22 @@ const User = (props) => {
         type: LOG_IN_ERROR,
         payload: error.response.data.errors,
       });
+    }
+  };
+  //USER AUTHENTICATED
+  const authenticatedUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        tokenAuth(token);
+        const response = await clienteAxios.get("/api/login");
+        dispatch({
+          type: GET_DATA_USER,
+          payload: response.data.result[0],
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   //LOG OUT

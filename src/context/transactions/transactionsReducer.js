@@ -44,16 +44,6 @@ const transactionReducer = (state, action) => {
     case DELETE_TRANSACTION:
       return {
         ...state,
-        transactions: state.transactions.filter(
-          (transaction) =>
-            transaction.id_transaction !== action.payload.id_transaction
-        ),
-        expenses: state.transactions
-          .filter(
-            (transaction) =>
-              transaction.id_transaction !== action.payload.id_transaction
-          )
-          .filter((transaction) => transaction.type !== "add"),
       };
     default:
       return state;

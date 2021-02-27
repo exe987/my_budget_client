@@ -38,31 +38,20 @@ const Transactions = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteTransaction(transaction);
-        Swal.fire("Deleted!", "Your expense has been deleted.", "success");
       }
     });
   };
   return (
-    <div className="has-background-dark column is-12-mobile is-7">
+    <div className="has-background-dark p-4 is-12-mobile is-7">
       <p className="title is-3 has-text-white">TRANSACTIONS</p>
       <table className="table">
         <thead className="has-background-primary-light">
           <tr>
-            <th>
-              <abbr>Type</abbr>
-            </th>
-            <th>
-              <abbr>Transaction Id</abbr>
-            </th>
-            <th>
-              <abbr>Amount</abbr>
-            </th>
-            <th>
-              <abbr>Date</abbr>
-            </th>
-            <th>
-              <abbr>Actions</abbr>
-            </th>
+            <th className="text-table">Type</th>
+            <th className="text-table">N°</th>
+            <th className="text-table">Amount</th>
+            <th className="text-table">Date</th>
+            <th className="text-table">Actions</th>
           </tr>
         </thead>
         {transactions
@@ -72,11 +61,11 @@ const Transactions = () => {
                 className="has-background-danger-light borde"
               >
                 <tr>
-                  <th>{transaction.type}</th>
-                  <td>{transaction.id_transaction} </td>
-                  <td>${transaction.ammount} </td>
-                  <td>{transaction.date}</td>
-                  <td>
+                  <td className="text-table">{transaction.type}</td>
+                  <td className="text-table">{transaction.id_transaction} </td>
+                  <td className="text-table">${transaction.ammount} </td>
+                  <td className="text-table">{transaction.date}</td>
+                  <td className="text-table">
                     {transaction.type !== "deposit" ? (
                       <button
                         onClick={() => toCatchTransaction(transaction)}

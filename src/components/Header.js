@@ -24,18 +24,18 @@ const Header = () => {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <a className="navbar-item" href="/">
-          <span className="title is-2 has-text-white">
+        <div className="navbar-item">
+          <span className="title is-3 has-text-white">
             My Budget
             <i className="fas fa-money-check-alt ml-2" />
           </span>
-        </a>
+        </div>
 
         {sesion ? (
           <>
             <div className="navbar-start">
-              <p className="navbar-item has-background-white ml-5">
-                <span className="title is-2 has-text-black">${budget}</span>
+              <p className="navbar-item ml-1">
+                <span className="title is-3 has-text-white">${budget}</span>
               </p>
             </div>
             <a

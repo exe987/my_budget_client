@@ -1,9 +1,7 @@
-import React, { useState, useContext, Fragment, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../context/users/userContext";
 import TransactionContext from "../context/transactions/transactionsContext";
 import AlertContext from "../context/alerts/alertContext";
-import Swal from "sweetalert2";
-import uuid from "uuid/dist/v4";
 
 const AddExpense = ({ changeForms }) => {
   //CONTEXT
@@ -52,7 +50,7 @@ const AddExpense = ({ changeForms }) => {
     //IF UPDATE TRANSACTION
     if (expenseToUpdate) {
       //EXPENSES
-      if ((budget - expenseToUpdate.ammount - ammount) < 0) {
+      if (budget - expenseToUpdate.ammount - ammount < 0) {
         return;
       }
       expenseToUpdate.ammount = -ammount;
@@ -63,7 +61,6 @@ const AddExpense = ({ changeForms }) => {
         user: dataSesion.id,
         type: "",
       });
-      
     } else {
       //TO ADD TRANSACTION
       if (!type) {
@@ -88,7 +85,6 @@ const AddExpense = ({ changeForms }) => {
       });
     }
   };
-
   return (
     <div className="has-background-dark column is-12-mobile is-7">
       {hiddenBox === false ? (
@@ -129,7 +125,7 @@ const AddExpense = ({ changeForms }) => {
                   <select onChange={handleChange} name="type" value={type}>
                     <option>Select </option>
                     <option value="workout">Vacations</option>
-                    <option value="transportation">Transportation</option>
+                    <option value="transport">Transport</option>
                     <option value="family">Family</option>
                     <option value="gifts">Gifts</option>
                     <option value="education">Education</option>
