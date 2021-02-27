@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
-import UserContext from "../context/users/userContext";
+import TransactionContext from "../context/transactions/transactionsContext";
 import Swal from "sweetalert2";
 const Transactions = () => {
   //CONTEXT
-  const userContext = useContext(UserContext);
-  const { transactions, catchTransaction, deleteTransaction } = userContext;
+  const transactionContext = useContext(TransactionContext);
+  const {
+    transactions,
+    catchTransaction,
+    deleteTransaction,
+  } = transactionContext;
 
   const toCatchTransaction = (data) => {
     Swal.fire({
@@ -39,7 +43,7 @@ const Transactions = () => {
     });
   };
   return (
-    <div className="column is-12-mobile is-8 has-background-black m-2">
+    <div className="has-background-dark column is-12-mobile is-7">
       <p className="title is-3 has-text-white">TRANSACTIONS</p>
       <table className="table">
         <thead className="has-background-primary-light">
@@ -61,33 +65,38 @@ const Transactions = () => {
             </th>
           </tr>
         </thead>
-        {transactions.map((transaction) => (
-          <tbody
-            key={transaction.id_transaction}
-            className="has-background-danger-light"
-          >
-            <tr>
-              <th>{transaction.destination}</th>
-              <td>{transaction.id_transaction} </td>
-              <td>${transaction.money} </td>
-              <td>{transaction.date}</td>
-              <td>
-                <button
-                  onClick={() => toCatchTransaction(transaction)}
-                  className="button is-small is-warning is-fullwidth m-1"
-                >
-                  EDIT
-                </button>
-                <button
-                  onClick={() => toDeleteTransaction(transaction)}
-                  className="button is-small is-danger is-fullwidth m-1"
-                >
-                  DELETE
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        ))}
+        {transactions
+          ? transactions.map((transaction) => (
+              <tbody
+                key={transaction.id_transaction}
+                className="has-background-danger-light borde"
+              >
+                <tr>
+                  <th>{transaction.type}</th>
+                  <td>{transaction.id_transaction} </td>
+                  <td>${transaction.ammount} </td>
+                  <td>{transaction.date}</td>
+                  <td>
+                    {transaction.type !== "deposit" ? (
+                      <button
+                        onClick={() => toCatchTransaction(transaction)}
+                        className="button is-small is-warning is-fullwidth m-1"
+                      >
+                        EDIT
+                      </button>
+                    ) : null}
+
+                    <button
+                      onClick={() => toDeleteTransaction(transaction)}
+                      className="button is-small is-danger is-fullwidth m-1"
+                    >
+                      DELETE
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            ))
+          : null}
       </table>
     </div>
   );

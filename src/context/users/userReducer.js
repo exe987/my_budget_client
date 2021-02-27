@@ -1,14 +1,10 @@
 import {
   CREATE_USER,
-  USER_ALREADY_EXISTS,
-  USER_CREATED,
+  ERROR_CREATE_USER,
   LOG_IN,
+  LOG_IN_ERROR,
   LOG_OUT,
-  ADD_TRANSACTION,
-  UPDATE_AMMOUNT,
-  CATCH_TRANSACTION_TO_UPDATE,
-  UPDATE_TRANSACTION,
-  DELETE_TRANSACTION,
+  GET_DATA_USER,
 } from "../../types/index";
 
 const userReducer = (state, action) => {
@@ -16,68 +12,37 @@ const userReducer = (state, action) => {
     case CREATE_USER:
       return {
         ...state,
-        users: [...state.users, action.payload],
       };
-    case LOG_IN:
+    case ERROR_CREATE_USER:
       return {
         ...state,
+        msgs: action.payload,
+      };
+    case LOG_IN_ERROR:
+      return {
+        ...state,
+        msgs: action.payload,
+      };
+    case LOG_IN:
+      localStorage.setItem("token", action.payload);
+      return {
+        ...state,
+      };
+    case GET_DATA_USER:
+      return {
+        ...state,
+        dataSesion: action.payload,
         sesion: true,
       };
     case LOG_OUT:
+      localStorage.removeItem("token");
       return {
         ...state,
         sesion: false,
+        dataSesion: null,
+        token: null,
       };
-    case ADD_TRANSACTION:
-      return {
-        ...state,
-        transactions: [...state.transactions, action.payload],
-        expenses: [...state.transactions, action.payload].filter(
-          (transaction) => transaction.type !== "add"
-        ),
-      };
-    case UPDATE_AMMOUNT:
-      return {
-        ...state,
-        dataSesion: {
-          name: state.dataSesion.name,
-          email: state.dataSesion.email,
-          password: state.dataSesion.password,
-          id: state.dataSesion.id,
-          ammount: state.dataSesion.ammount + action.payload,
-        },
-      };
-    case CATCH_TRANSACTION_TO_UPDATE:
-      return {
-        ...state,
-        expenseToUpdate: action.payload,
-        hiddenBox: true,
-      };
-    case UPDATE_TRANSACTION:
-      return {
-        ...state,
-        transactions: state.transactions.filter((transaction) =>
-          transaction.id_transaction === action.payload.id_transaction
-            ? action.payload.id_transaction
-            : transaction
-        ),
-        expenseToUpdate: null,
-        hiddenBox: false,
-      };
-    case DELETE_TRANSACTION:
-      return {
-        ...state,
-        transactions: state.transactions.filter(
-          (transaction) =>
-            transaction.id_transaction !== action.payload.id_transaction
-        ),
-        expenses: state.transactions
-          .filter(
-            (transaction) =>
-              transaction.id_transaction !== action.payload.id_transaction
-          )
-          .filter((transaction) => transaction.type !== "add"),
-      };
+
     default:
       return state;
   }

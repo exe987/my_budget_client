@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UserContext from "../context/users/userContext";
+import TransactionContext from "../context/transactions/transactionsContext";
 
 const Header = () => {
   //REDIRECTING
@@ -8,9 +9,10 @@ const Header = () => {
   //CONTEXT
   const userContext = useContext(UserContext);
   const { sesion, logOut, dataSesion } = userContext;
+  const transactionContext = useContext(TransactionContext);
+  const { budget } = transactionContext;
   //LOCAL STATE
   const [isActive, setisActive] = useState(false);
-
   const toLogOut = () => {
     logOut();
     history.push("/");
@@ -28,31 +30,32 @@ const Header = () => {
             <i className="fas fa-money-check-alt ml-2" />
           </span>
         </a>
+
         {sesion ? (
-          <div className="navbar-start">
-            <p className="navbar-item has-background-white ml-5">
-              <span className="title is-2 has-text-black">
-                {" "}
-                ${dataSesion.ammount}
-              </span>
-            </p>
-          </div>
+          <>
+            <div className="navbar-start">
+              <p className="navbar-item has-background-white ml-5">
+                <span className="title is-2 has-text-black">${budget}</span>
+              </p>
+            </div>
+            <a
+              onClick={() => {
+                setisActive(!isActive);
+              }}
+              role="button"
+              className={`navbar-burger burger ${isActive ? "is-active" : ""}`}
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarBasicExample"
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </a>
+          </>
         ) : null}
-        <a
-          onClick={() => {
-            setisActive(!isActive);
-          }}
-          role="button"
-          className={`navbar-burger burger ${isActive ? "is-active" : ""}`}
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-        </a>
       </div>
+
       <div
         id="navbarBasicExample"
         className={`navbar-menu ${isActive ? "is-active" : ""}`}
@@ -61,7 +64,7 @@ const Header = () => {
           <div className="navbar-end">
             <a className="navbar-item" onClick={() => toLogOut()}>
               <span>
-                CERRAR SESION <i className="fas fa-user-plus" />
+                SIGN OUT <i className="fas fa-sign-out-alt"></i>
               </span>
             </a>
           </div>

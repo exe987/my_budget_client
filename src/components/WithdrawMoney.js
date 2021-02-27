@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
+import Swal from "sweetalert2";
 import UserContext from "../context/users/userContext";
 import TransactionContext from "../context/transactions/transactionsContext";
 import AlertContext from "../context/alerts/alertContext";
 
-const AddMoney = () => {
+const WithdrawMoney = () => {
   //CONTEXT
   const userContext = useContext(UserContext);
   const { dataSesion } = userContext;
@@ -14,7 +15,7 @@ const AddMoney = () => {
   //LOCAL STATES
   const [money, addMoney] = useState({
     ammount: "",
-    date: "",
+    date: "XXXX-XX-XX",
     user: dataSesion.id,
     type: "deposit",
   });
@@ -25,14 +26,15 @@ const AddMoney = () => {
     }
   }, [msgs]);
 
-  const handleChangeAdd = (e) => {
+  const handleChangeWithdraw = (e) => {
     addMoney({
       ...money,
       [e.target.name]: e.target.value,
     });
   };
+
   let { ammount, date } = money;
-  const handleSubmitAdd = (e) => {
+  const handleSubmitWithdraw = (e) => {
     //VALIDATE CAMPS
     e.preventDefault();
     if (!ammount) {
@@ -43,22 +45,32 @@ const AddMoney = () => {
       showAlert("Choice a date");
       return;
     }
-    //ADD TRANSACTION
-    money.ammount = parseInt(ammount);
+    if (dataSesion.ammount < money.ammount) {
+      showAlert("You don't have money");
+      return;
+    }
+    money.ammount = parseInt(-ammount);
     addTransaction(money, dataSesion.ammount);
-    //REINIT FORM
+    //MSG SUCCESS
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "You have retired money",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    //REINIT FROM
     addMoney({
       ammount: "",
       date: "",
       user: dataSesion.id,
-      type: "deposit",
+      type: "withdrawal",
     });
   };
-
   return (
     <form
-      onSubmit={handleSubmitAdd}
-      className="has-background-primary-light column p-6"
+      onSubmit={handleSubmitWithdraw}
+      className="has-background-danger-light column p-6"
     >
       {alert ? (
         <p className="title has-text-white is-5 is-danger has-background-danger">
@@ -67,18 +79,18 @@ const AddMoney = () => {
         </p>
       ) : null}
       <div className="field">
-        <p className="title is-3">TO DEPOSIT</p>
+        <p className="title is-3">TO WITHDRAW</p>
       </div>
       <div className="field">
         <p className="title is-5">Ammount</p>
-        <div className="control mt-2">
+        <div className="control">
           <input
             className="input is-medium"
             type="number"
             name="ammount"
             min="1"
             value={ammount}
-            onChange={handleChangeAdd}
+            onChange={handleChangeWithdraw}
           />
         </div>
       </div>
@@ -89,14 +101,14 @@ const AddMoney = () => {
             type="date"
             name="date"
             className="input is-medium"
-            onChange={handleChangeAdd}
+            onChange={handleChangeWithdraw}
           />
         </div>
       </div>
       <div className="field is-grouped columns m-5 is-centered">
         <div className="control">
-          <button type="submit" className="button is-link ">
-            DEPOSIT
+          <button type="submit" className="button is-danger ">
+            WITHDRAW
           </button>
         </div>
       </div>
@@ -104,4 +116,4 @@ const AddMoney = () => {
   );
 };
 
-export default AddMoney;
+export default WithdrawMoney;
