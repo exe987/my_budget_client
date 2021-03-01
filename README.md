@@ -31,7 +31,9 @@ Leer readme de server antes de empezar a ejecutar la app.
 Autor✒️
 
 Soto, Angel Exequiel
+
 github: https://github.com/exe987
+
 linkedin: https://linkedin.com/in/exesoto
 
 
