@@ -4,7 +4,6 @@ import userReducer from "./userReducer";
 import clienteAxios from "../../config/axios";
 import Swal from "sweetalert2";
 import tokenAuth from "../../config/tokenAuth";
-import { useHistory } from "react-router-dom";
 import {
   CREATE_USER,
   ERROR_CREATE_USER,
@@ -22,7 +21,6 @@ const User = (props) => {
     hiddenBox: false,
     expenseToUpdate: null,
   };
-  const history = useHistory();
   //REDUCER
   const [state, dispatch] = useReducer(userReducer, initialState);
   //CREATE USER
@@ -43,7 +41,11 @@ const User = (props) => {
       console.log(error);
       dispatch({
         type: ERROR_CREATE_USER,
-        payload: error.response.data.errors,
+        payload: [
+          {
+            msg: "An error occurred ",
+          },
+        ],
       });
     }
   };
@@ -60,7 +62,11 @@ const User = (props) => {
       console.log(error);
       dispatch({
         type: LOG_IN_ERROR,
-        payload: error.response.data.errors,
+        payload: [
+          {
+            msg: "An error occurred ",
+          },
+        ],
       });
     }
   };
@@ -83,8 +89,19 @@ const User = (props) => {
   //LOG OUT
   const logOut = () => {
     try {
-      dispatch({
-        type: LOG_OUT,
+      Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, sign out!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch({
+            type: LOG_OUT,
+          });
+        }
       });
     } catch (error) {
       console.log(error);

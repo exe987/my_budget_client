@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
 import TransactionContext from "../context/transactions/transactionsContext";
 import AddOrWithdrawMoney from "./AddOrWithdrawMoney";
-import AddExpense from "./AddExpense";
-import Transactions from './Transactions'
+import AddAndUpdateExpense from "./AddAndUpdateExpense";
+import Transactions from "./Transactions";
 
 const Dashboard = () => {
   //CONTEXT
   const transactionContext = useContext(TransactionContext);
   const { hiddenBox } = transactionContext;
+
   //CHANGE FORM TYPE
   const [formState, stateForm] = useState(false);
   const changeForms = () => {
@@ -17,27 +18,25 @@ const Dashboard = () => {
       stateForm(true);
     }
   };
+
   return (
-    <section className="section is-small">
-      <div className="columns is-centered">
-        {formState ? (
-          <>
-            {hiddenBox === false ? (
-              <>
-                <AddOrWithdrawMoney
-                  formState={formState}
-                  changeForms={changeForms}
-                />
-              </>
-            ) : null}
-          </>
-        ) : (
-          <AddExpense formState={formState} changeForms={changeForms} />
-        )}
-      </div>
-      <div className="columns is-centered mt-3">
-        {hiddenBox === false ? <Transactions /> : null}
-      </div>
+    <section className="section columns is-vcentered mt-6">
+      {formState ? (
+        <>
+          {hiddenBox === false ? (
+            <>
+              <AddOrWithdrawMoney
+                formState={formState}
+                changeForms={changeForms}
+              />
+            </>
+          ) : null}
+        </>
+      ) : (
+        <AddAndUpdateExpense formState={formState} changeForms={changeForms} />
+      )}
+
+      {hiddenBox === false ? <Transactions /> : null}
     </section>
   );
 };

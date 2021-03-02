@@ -45,7 +45,7 @@ const AddMoney = () => {
     }
     //ADD TRANSACTION
     money.ammount = parseInt(ammount);
-    addTransaction(money, dataSesion.ammount);
+    addTransaction(money);
     //REINIT FORM
     addMoney({
       ammount: "",
@@ -90,6 +90,7 @@ const AddMoney = () => {
             name="date"
             className="input is-medium"
             onChange={handleChangeAdd}
+            value={date}
           />
         </div>
       </div>

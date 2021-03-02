@@ -1,11 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import UserContext from "../context/users/userContext";
 import AlertContext from "../context/alerts/alertContext";
 
 const SignIn = () => {
-  //REDIRECTING
-  const history = useHistory();
   //CONTEXT
   const userContext = useContext(UserContext);
   const { logIn, msgs } = userContext;
@@ -39,6 +36,10 @@ const SignIn = () => {
     }
     if (password.trim() === "") {
       showAlert("Password is required");
+      return;
+    }
+    if (password.length < 6) {
+      showAlert("Password must be 6 characters");
       return;
     }
     logIn(userData);
