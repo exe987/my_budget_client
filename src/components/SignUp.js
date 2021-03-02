@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../context/users/userContext";
 import AlertContext from "../context/alerts/alertContext";
 
-const SignUp = () => {
+const SignUp = ({ changeForm }) => {
   //CONTEXT
   const userContext = useContext(UserContext);
   const { msgs, createUser } = userContext;
@@ -16,9 +16,6 @@ const SignUp = () => {
     password_repeat: "",
   });
 
-  const [error_password_doesntmatch, switchErrorPasswordDoesntmatch] = useState(
-    false
-  );
   //SHOW ERROR VALIDATOR
   useEffect(() => {
     if (msgs) {
@@ -48,6 +45,10 @@ const SignUp = () => {
       showAlert("Password is required");
       return;
     }
+    if (password.length < 6) {
+      showAlert("Password must be 6 characters");
+      return;
+    }
     if (password_repeat.trim() === "" || password !== password_repeat) {
       showAlert("Passwords does not match");
       return;
@@ -59,6 +60,7 @@ const SignUp = () => {
       password: "",
       password_repeat: "",
     });
+    changeForm(false);
   };
 
   return (

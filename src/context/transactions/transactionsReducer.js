@@ -4,6 +4,7 @@ import {
   GET_TRANSACTIONS,
   UPDATE_AMMOUNT,
   CATCH_TRANSACTION_TO_UPDATE,
+  CANCEL_CATCH_TRANSACTION_TO_UPDATE,
   UPDATE_TRANSACTION,
   DELETE_TRANSACTION,
 } from "../../types/index";
@@ -34,6 +35,12 @@ const transactionReducer = (state, action) => {
         ...state,
         expenseToUpdate: action.payload,
         hiddenBox: true,
+      };
+    case CANCEL_CATCH_TRANSACTION_TO_UPDATE:
+      return {
+        ...state,
+        expenseToUpdate: action.payload,
+        hiddenBox: false,
       };
     case UPDATE_TRANSACTION:
       return {

@@ -10,11 +10,19 @@ const Footer = () => {
         <div className="column is-6-mobile has-text-centered">
           <div className="columns">
             <div className="column">
-              <a className='has-text-white' href="https://github.com/exe987">
+              <a
+                className="has-text-white"
+                target="blank"
+                href="https://github.com/exe987"
+              >
                 {" "}
-                <a className="fab fa-github-square ml-2" />
+                <i className="fab fa-github-square ml-2" />
               </a>
-              <a className='has-text-white' href="www.linkedin.com/in/exesoto">
+              <a
+                className="has-text-white"
+                target="blank"
+                href="https://linkedin.com/in/exesoto"
+              >
                 {" "}
                 <i className="fab fa-linkedin ml-2" />
               </a>

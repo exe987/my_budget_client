@@ -9,15 +9,15 @@ const WithdrawMoney = () => {
   const userContext = useContext(UserContext);
   const { dataSesion } = userContext;
   const transactionContext = useContext(TransactionContext);
-  const { addTransaction, msgs } = transactionContext;
+  const { addTransaction, msgs, budget } = transactionContext;
   const alertContext = useContext(AlertContext);
   const { alert, showAlert } = alertContext;
   //LOCAL STATES
   const [money, addMoney] = useState({
     ammount: "",
-    date: "XXXX-XX-XX",
+    date: "",
     user: dataSesion.id,
-    type: "deposit",
+    type: "withdraw",
   });
   //SHOW ERROR VALIDATOR
   useEffect(() => {
@@ -32,7 +32,7 @@ const WithdrawMoney = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  //SUBMIT DATA
   let { ammount, date } = money;
   const handleSubmitWithdraw = (e) => {
     //VALIDATE CAMPS
@@ -45,26 +45,18 @@ const WithdrawMoney = () => {
       showAlert("Choice a date");
       return;
     }
-    if (dataSesion.ammount < money.ammount) {
+    if (budget < ammount) {
       showAlert("You don't have money");
       return;
     }
     money.ammount = parseInt(-ammount);
-    addTransaction(money, dataSesion.ammount);
-    //MSG SUCCESS
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "You have retired money",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    addTransaction(money);
     //REINIT FROM
     addMoney({
       ammount: "",
       date: "",
       user: dataSesion.id,
-      type: "withdrawal",
+      type: "withdraw",
     });
   };
   return (
@@ -102,6 +94,7 @@ const WithdrawMoney = () => {
             name="date"
             className="input is-medium"
             onChange={handleChangeWithdraw}
+            value={date}
           />
         </div>
       </div>

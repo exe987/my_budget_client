@@ -16,7 +16,6 @@ const PrivateRoute = ({ component: Component, ...props }) => {
       {...props}
       render={(props) =>
         !sesion ? <Redirect to="/" /> : <Component {...props} />
-        
       }
     />
   );

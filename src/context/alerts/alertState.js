@@ -5,7 +5,7 @@ import { SHOW_ALERT, HIDDEN_ALERT } from "../../types/index";
 
 const Alert = (props) => {
   const initialState = {
-    alert: null
+    alert: null,
   };
   //REDUCER
   const [state, dispatch] = useReducer(alertReducer, initialState);

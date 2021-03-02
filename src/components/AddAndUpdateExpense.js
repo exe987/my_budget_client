@@ -3,7 +3,7 @@ import UserContext from "../context/users/userContext";
 import TransactionContext from "../context/transactions/transactionsContext";
 import AlertContext from "../context/alerts/alertContext";
 
-const AddExpense = ({ changeForms }) => {
+const AddAndUpdateExpense = ({ changeForms }) => {
   //CONTEXT
   const userContext = useContext(UserContext);
   const { dataSesion } = userContext;
@@ -15,6 +15,7 @@ const AddExpense = ({ changeForms }) => {
     updateTransaction,
     budget,
     expenseToUpdate,
+    cancelCatchTransaction,
   } = transactionContext;
   const alertContext = useContext(AlertContext);
   const { alert, showAlert } = alertContext;
@@ -39,7 +40,19 @@ const AddExpense = ({ changeForms }) => {
       [e.target.name]: e.target.value,
     });
   };
-  //SUBMIT
+
+  //TO CANCEL SELECT TRANSACTION
+  const toCancelCatchTransaction = () => {
+    cancelCatchTransaction();
+    addMoney({
+      ammount: "",
+      date: "",
+      user: dataSesion.id,
+      type: "",
+    });
+  };
+
+  //SUBMIT DATA
   let { ammount, type, date } = money;
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,20 +60,38 @@ const AddExpense = ({ changeForms }) => {
       showAlert("Type a ammount");
       return;
     }
+    ammount = parseInt(ammount);
     //IF UPDATE TRANSACTION
     if (expenseToUpdate) {
-      //EXPENSES
-      if (budget - expenseToUpdate.ammount - ammount < 0) {
-        return;
+      //DEPOSITS
+      if (expenseToUpdate.type === "deposit") {
+        if (budget - expenseToUpdate.ammount + ammount < 0) {
+          showAlert("Budget cannot be less than 0");
+          return;
+        }
+        expenseToUpdate.ammount = ammount;
+        updateTransaction(expenseToUpdate);
+        addMoney({
+          ammount: "",
+          date: "",
+          user: dataSesion.id,
+          type: "",
+        });
+      } else {
+        //WITHDRAWS
+        if (budget - expenseToUpdate.ammount - ammount < 0) {
+          showAlert("Budget cannot be less than 0");
+          return;
+        }
+        expenseToUpdate.ammount = -ammount;
+        updateTransaction(expenseToUpdate);
+        addMoney({
+          ammount: "",
+          date: "",
+          user: dataSesion.id,
+          type: "",
+        });
       }
-      expenseToUpdate.ammount = -ammount;
-      updateTransaction(expenseToUpdate);
-      addMoney({
-        ammount: "",
-        date: "",
-        user: dataSesion.id,
-        type: "",
-      });
     } else {
       //TO ADD TRANSACTION
       if (!type) {
@@ -85,12 +116,17 @@ const AddExpense = ({ changeForms }) => {
       });
     }
   };
+
   return (
-    <div className="has-background-dark column is-12-mobile is-7">
+    <div className="has-background-dark m-2 column">
       {hiddenBox === false ? (
-        <p className="title is-3 has-text-white">ADD EXPENSE</p>
+        <p className="title is-4 has-text-white has-text-centered">
+          ADD EXPENSE
+        </p>
       ) : (
-        <p className="title is-3 has-text-white">UPDATE AMMOUNT EXPENSE</p>
+        <p className="title is-4 has-text-white has-text-centered">
+          UPDATE TRANSACTION
+        </p>
       )}
       <form
         onSubmit={handleSubmit}
@@ -123,13 +159,13 @@ const AddExpense = ({ changeForms }) => {
               <div className="control ">
                 <div className="select is-small">
                   <select onChange={handleChange} name="type" value={type}>
-                    <option>Select </option>
+                    <option value="">Select </option>
                     <option value="workout">Vacations</option>
                     <option value="transport">Transport</option>
                     <option value="family">Family</option>
                     <option value="gifts">Gifts</option>
                     <option value="education">Education</option>
-                    <option value="home">Home</option>
+                    <option value="food">Food</option>
                   </select>
                 </div>
               </div>
@@ -151,16 +187,25 @@ const AddExpense = ({ changeForms }) => {
         <div className="field is-grouped columns m-5 is-centered">
           <div className="control">
             <button type="submit" className="button is-danger">
-              {hiddenBox === false ? "ADD EXPENSE +" : "UPDATE EXPENSE"}
+              {hiddenBox === false ? "ADD EXPENSE +" : "UPDATE TRANSACTION"}
             </button>
           </div>
         </div>
       </form>
-      <a className="tag is-warning ml-2 mt-2" onClick={() => changeForms()}>
-        Do yo want to update budget?
-      </a>
+      {hiddenBox === false ? (
+        <a className="tag is-warning ml-2 mt-2" onClick={() => changeForms()}>
+          UPDATE BUDGET
+        </a>
+      ) : (
+        <a
+          className="tag is-warning ml-2 mt-2"
+          onClick={() => toCancelCatchTransaction()}
+        >
+          CANCEL UPDATE BUDGET
+        </a>
+      )}
     </div>
   );
 };
 
-export default AddExpense;
+export default AddAndUpdateExpense;

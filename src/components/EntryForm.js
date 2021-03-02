@@ -20,12 +20,12 @@ const EntryForm = () => {
     if (token && sesion) {
       tokenAuth(token);
       getLastTransactions(dataSesion.id);
-      getBudget(dataSesion.id)
+      getBudget(dataSesion.id);
       history.push("/dashboard");
     } else {
       history.push("/");
     }
-  }, [dataSesion]);
+  }, [sesion]);
 
   //CHANGE FORM TYPE
   const [form, changeForm] = useState(false);
@@ -46,7 +46,7 @@ const EntryForm = () => {
         </div>
         {form ? (
           <div className="column is-6 has-background-success-light">
-            <SignUp />
+            <SignUp changeForm={changeForm} />
             Or<a onClick={() => showForm()}> Sign In to your account</a>
           </div>
         ) : (

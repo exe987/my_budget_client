@@ -1,21 +1,21 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import UserContext from "../context/users/userContext";
 import TransactionContext from "../context/transactions/transactionsContext";
 
 const Header = () => {
-  //REDIRECTING
-  const history = useHistory();
   //CONTEXT
   const userContext = useContext(UserContext);
-  const { sesion, logOut, dataSesion } = userContext;
+  const { sesion, logOut } = userContext;
   const transactionContext = useContext(TransactionContext);
-  const { budget } = transactionContext;
+  const { budget, cancelCatchTransaction } = transactionContext;
+
   //LOCAL STATE
   const [isActive, setisActive] = useState(false);
+  //SIGN OUT
   const toLogOut = () => {
     logOut();
-    history.push("/");
+    setisActive(false);
+    cancelCatchTransaction();
   };
   return (
     <nav
@@ -35,7 +35,11 @@ const Header = () => {
           <>
             <div className="navbar-start">
               <p className="navbar-item ml-1">
-                <span className="title is-3 has-text-white">${budget}</span>
+                {!budget ? (
+                  <span className="title is-3 has-text-white">$0</span>
+                ) : (
+                  <span className="title is-3 has-text-white"> ${budget}</span>
+                )}
               </p>
             </div>
             <a

@@ -12,34 +12,27 @@ const AddOrWithdrawMoney = ({ changeForms }) => {
     }
   };
   return (
-    <div className="has-background-dark column is-12-mobile is-7">
-      <p className="title has-text-white is-3">UPDATE YOUR BUDGET</p>
+    <div className="has-background-dark column is-mobile-12 m-2 is-5">
+      <p className="title has-text-white has-text-centered is-4">
+        UPDATE YOUR BUDGET
+      </p>
       {form ? (
         <>
           <WithdrawMoney />
-          <a
-            className="tag is-warning mt-2"
-            onClick={() => showForm()}
-          >
-            Do yo want to deposit?
+          <a className="tag is-warning mt-2" onClick={() => showForm()}>
+            DEPOSIT
           </a>
         </>
       ) : (
         <>
           <AddMoney />
-          <a
-            className="tag is-warning mt-2"
-            onClick={() => showForm()}
-          >
-            Do yo want to withdraw?
+          <a className="tag is-warning mt-2" onClick={() => showForm()}>
+            WITHDRAW
           </a>
         </>
       )}
-      <a
-        className="tag is-warning ml-2 mt-2"
-        onClick={() => changeForms()}
-      >
-        Do yo want to add expense?
+      <a className="tag is-warning ml-2 mt-2" onClick={() => changeForms()}>
+        ADD EXPENSE
       </a>
     </div>
   );

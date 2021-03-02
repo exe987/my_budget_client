@@ -8,6 +8,7 @@ import {
   ADD_TRANSACTION_ERROR,
   GET_TRANSACTIONS,
   CATCH_TRANSACTION_TO_UPDATE,
+  CANCEL_CATCH_TRANSACTION_TO_UPDATE,
   UPDATE_TRANSACTION,
   UPDATE_AMMOUNT,
   DELETE_TRANSACTION,
@@ -23,7 +24,7 @@ const Transaction = (props) => {
   //REDUCER
   const [state, dispatch] = useReducer(transactionReducer, initialState);
 
-  //ADD TRANSACTION
+  //----------------ADD TRANSACTION-------------------//
   const addTransaction = async (transaction) => {
     try {
       const response = await clienteAxios.post("/api/transaction", transaction);
@@ -82,13 +83,24 @@ const Transaction = (props) => {
       console.log(error);
     }
   };
-  //UPDATE TRANSACTION
+  //----------------UPDATE TRANSACTION----------------//
   //CATCH TRANSACTION FOR UPDATING
   const catchTransaction = (expense) => {
     try {
       dispatch({
         type: CATCH_TRANSACTION_TO_UPDATE,
         payload: expense,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //CANCEL CATCH TRANSACTION
+  const cancelCatchTransaction = () => {
+    try {
+      dispatch({
+        type: CANCEL_CATCH_TRANSACTION_TO_UPDATE,
+        payload: null,
       });
     } catch (error) {
       console.log(error);
@@ -101,7 +113,13 @@ const Transaction = (props) => {
         id: transaction.id_transaction,
         ammount: transaction.ammount,
       });
-      console.log(response);
+      //MSG SUCCESS
+      Swal.fire({
+        icon: "success",
+        title: response.data.msg,
+        showConfirmButton: false,
+        timer: 1500,
+      });
       //GET LAST 10 TRANSACTIONS
       getLastTransactions(transaction.id);
       //GET BUDGET
@@ -113,7 +131,7 @@ const Transaction = (props) => {
       console.log(error);
     }
   };
-  //DELETE TRANSACTION
+  //----------------DELETE TRANSACTION----------------//
   const deleteTransaction = async (transaction) => {
     try {
       const { id_transaction } = transaction;
@@ -147,6 +165,7 @@ const Transaction = (props) => {
         getLastTransactions,
         getBudget,
         catchTransaction,
+        cancelCatchTransaction,
         updateTransaction,
         deleteTransaction,
       }}
