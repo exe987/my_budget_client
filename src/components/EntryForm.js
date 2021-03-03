@@ -14,7 +14,6 @@ const EntryForm = () => {
 
   //REDIRECTING
   const history = useHistory();
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && sesion) {
@@ -25,7 +24,7 @@ const EntryForm = () => {
     } else {
       history.push("/");
     }
-  }, [sesion]);
+  }, [dataSesion]);
 
   //CHANGE FORM TYPE
   const [form, changeForm] = useState(false);

@@ -1,5 +1,6 @@
 export const CREATE_USER = "CREATE_USER";
 export const ERROR_CREATE_USER = "ERROR_CREATE_USER";
+export const CLEAN_MSG_ALERT = "CLEAN_MSG_ALERT";
 
 export const LOG_IN = "LOG_IN";
 export const LOG_IN_ERROR = "LOG_IN_ERROR";
@@ -8,6 +9,7 @@ export const LOG_OUT = "LOG_OUT";
 
 export const SHOW_ALERT = "SHOW_ALERT";
 export const HIDDEN_ALERT = "HIDDEN_ALERT";
+
 
 export const ADD_TRANSACTION = "ADD_TRANSACTION";
 export const ADD_TRANSACTION_ERROR = "ADD_TRANSACTION_ERROR";

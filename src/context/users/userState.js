@@ -9,6 +9,7 @@ import {
   ERROR_CREATE_USER,
   LOG_IN,
   LOG_IN_ERROR,
+  CLEAN_MSG_ALERT,
   GET_DATA_USER,
   LOG_OUT,
 } from "../../types/index";
@@ -41,14 +42,12 @@ const User = (props) => {
       console.log(error);
       dispatch({
         type: ERROR_CREATE_USER,
-        payload: [
-          {
-            msg: "An error occurred ",
-          },
-        ],
+        payload: error.response.data.errors,
       });
+      cleanAlert();
     }
   };
+
   //LOGIN
   const logIn = async (user) => {
     try {
@@ -62,15 +61,20 @@ const User = (props) => {
       console.log(error);
       dispatch({
         type: LOG_IN_ERROR,
-        payload: [
-          {
-            msg: "An error occurred ",
-          },
-        ],
+        payload: error.response.data.errors,
       });
+      cleanAlert();
     }
   };
-  //USER AUTHENTICATED
+  //CLEAN MSG ALERT OF STATE
+  const cleanAlert = () => {
+    setTimeout(() => {
+      dispatch({
+        type: CLEAN_MSG_ALERT,
+      });
+    }, 5000);
+  };
+  //GET USER AUTHENTICATED
   const authenticatedUser = async () => {
     try {
       const token = localStorage.getItem("token");

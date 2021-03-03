@@ -71,7 +71,7 @@ const WithdrawMoney = () => {
         </p>
       ) : null}
       <div className="field">
-        <p className="title is-3">TO WITHDRAW</p>
+        <p className="title is-4">TO WITHDRAW</p>
       </div>
       <div className="field">
         <p className="title is-5">Ammount</p>

@@ -67,7 +67,7 @@ const AddMoney = () => {
         </p>
       ) : null}
       <div className="field">
-        <p className="title is-3">TO DEPOSIT</p>
+        <p className="title is-4">TO DEPOSIT</p>
       </div>
       <div className="field">
         <p className="title is-5">Ammount</p>

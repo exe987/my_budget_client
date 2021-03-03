@@ -3,6 +3,7 @@ import {
   ERROR_CREATE_USER,
   LOG_IN,
   LOG_IN_ERROR,
+  CLEAN_MSG_ALERT,
   LOG_OUT,
   GET_DATA_USER,
 } from "../../types/index";
@@ -12,6 +13,7 @@ const userReducer = (state, action) => {
     case CREATE_USER:
       return {
         ...state,
+        msgs: null,
       };
     case ERROR_CREATE_USER:
       return {
@@ -27,6 +29,11 @@ const userReducer = (state, action) => {
       localStorage.setItem("token", action.payload);
       return {
         ...state,
+      };
+    case CLEAN_MSG_ALERT:
+      return {
+        ...state,
+        msgs: null,
       };
     case GET_DATA_USER:
       return {
